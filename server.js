@@ -1,16 +1,19 @@
 const Express = require('express');
 const CORS = require('cors');
 const bodyParser = require('body-parser');
-// const logger = require('logger');
 
-const {setup} = require('./includes/config.js');
+const {setup, setupKafka, kafkaConnect} = require('./includes/config.js');
+const {add_result_object, log_request} = require('./middleware/small_functions');
+const {post_message} = require('./routes/message');
 
+// setup
 setup();
+setupKafka();
 
 let PORT = process.env.NODE_SERVER_PORT;
 let app = Express();
 
-// app.use(logger);
+
 app.use(CORS({
     origin: true,
     methods: ['GET', 'PUT', 'POST', 'PATCH', 'OPTIONS'],
@@ -19,6 +22,18 @@ app.use(CORS({
 }));
 app.use(bodyParser.json());
 
-app.listen(() => {
+
+// middleware
+app.use(add_result_object);
+app.use(kafkaConnect);
+app.use(log_request);
+
+
+// routes
+app.post('/message', post_message);
+
+
+// start server
+app.listen(PORT, () => {
     console.log(`Express server listening on port ${PORT}`);
 });
