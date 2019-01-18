@@ -1,3 +1,11 @@
+/** @function get_message
+ * @description get message to kafka
+ * */
+const get_message = (req, res) => {
+
+};
+
+
 /** @function post_message
  * @description send message to kafka
  * */
