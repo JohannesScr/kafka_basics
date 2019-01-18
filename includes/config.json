@@ -1,0 +1,11 @@
+{
+  "development": {
+    "node_server_port": 3000
+  },
+  "test": {
+    "node_server_port": 3000
+  },
+  "production": {
+    "node_server_port": 3000
+  }
+}
